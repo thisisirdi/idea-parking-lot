@@ -1,0 +1,23 @@
+name: idea-parking-lot
+
+services:
+  db:
+    image: postgres:17-alpine
+    container_name: idea-parking-lot-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: idea_parking_lot
+      POSTGRES_USER: idea_parking_lot
+      POSTGRES_PASSWORD: idea_parking_lot
+    ports:
+      - "5434:5432"
+    volumes:
+      - idea_parking_lot_db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U idea_parking_lot -d idea_parking_lot"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  idea_parking_lot_db_data:
